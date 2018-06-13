@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
 
     private val BASE_URL = "https://api.github.com/graphql"
     private lateinit var client: ApolloClient
+    private lateinit var repositories: FindReposByName.Repositories
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,22 +27,24 @@ class MainActivity : AppCompatActivity() {
 
     private fun findQuery() {
         Log.d("APOLLO", "find query called")
-        client.query(FindQuery    //From the auto generated class
+        client.query(FindReposByName    //From the auto generated class
                 .builder()
-                .name("butterknife") //Passing required arguments
-                .owner("jakewharton") //Passing required arguments
+                .owner(repo_name.text.toString()) //Passing required arguments
                 .build())
-                .enqueue(object : ApolloCall.Callback<FindQuery.Data>() {
+                .enqueue(object : ApolloCall.Callback<FindReposByName.Data>() {
                     override fun onFailure(e: ApolloException) {
-//                        Log.info(e.message.toString())
                         Log.d("APOLLO", "find query failed")
                     }
-                    override fun onResponse(response: Response<FindQuery.Data>) {
-//                        Log.info(" " + response.data()?.repository())
+                    override fun onResponse(response: Response<FindReposByName.Data>) {
                         runOnUiThread({
                             Log.d("APOLLO", "find query success")
                             //                            progress_bar.visibility = View.GONE
-                            contents.text = "Repo : " + response.data()?.repository()?.name()
+                            repositories = response.data()?.repositoryOwner()?.repositories()!!
+                            var node = repositories.edges()?.get(0)?.node()
+                            contents.text = "Repo name : " + node?.name()
+                                    "\n Description : " + node?.description() +
+                                    "\n Fork count : " + node?.forkCount() +
+                                    "\n Url : " + node?.url()
 //                            description_text_view.text = String.format(getString(R.string.description_text),
 //                                    response.data()?.repository()?.description())
 //                            forks_text_view.text = String.format(getString(R.string.fork_count_text),
@@ -61,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                     val builder = original.newBuilder().method(original.method(),
                             original.body())
                     builder.addHeader("Authorization"
-                            , "Bearer " + "token")
+                            , "Bearer " + "73aa9cf9d63815ed4003e486a87d0ca42ad12559")
                     chain.proceed(builder.build())
                 })
                 .build()
