@@ -2,6 +2,7 @@ package com.apollo.nari.playwithapollo
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
@@ -40,20 +41,16 @@ class MainActivity : AppCompatActivity() {
                             Log.d("APOLLO", "find query success")
                             //                            progress_bar.visibility = View.GONE
                             repositories = response.data()?.repositoryOwner()?.repositories()!!
-                            var node = repositories.edges()?.get(0)?.node()
-                            contents.text = "Repo name : " + node?.name()
-                                    "\n Description : " + node?.description() +
-                                    "\n Fork count : " + node?.forkCount() +
-                                    "\n Url : " + node?.url()
-//                            description_text_view.text = String.format(getString(R.string.description_text),
-//                                    response.data()?.repository()?.description())
-//                            forks_text_view.text = String.format(getString(R.string.fork_count_text),
-//                                    response.data()?.repository()?.forkCount().toString())
-//                            url_text_view.text = String.format(getString(R.string.url_count_text),
-//                                    response.data()?.repository()?.url().toString())
+                            createView(repositories.edges()!!)
                         })
                     }
                 })
+    }
+
+    private fun createView(edges: List<FindReposByName.Edge>) {
+        var layoutManager = LinearLayoutManager(this)
+        repo_rv.layoutManager = layoutManager
+        repo_rv.adapter = ReposAdapter(edges)
     }
 
     private fun setupApolloClient(): ApolloClient {
