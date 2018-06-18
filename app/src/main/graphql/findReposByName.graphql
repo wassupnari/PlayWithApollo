@@ -1,6 +1,6 @@
 query findReposByName($owner: String!) {
   repositoryOwner(login: $owner) {
-    repositories(first: 10, isFork: false, privacy: PUBLIC, orderBy: { field: CREATED_AT, direction: DESC }) {
+    repositories(first: 15, isFork: false, privacy: PUBLIC, orderBy: { field: CREATED_AT, direction: DESC }) {
       edges {
         node {
           name

@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.apollo.nari.playwithapollo.databinding.ActivityMainBinding
 import com.apollo.nari.playwithapollo.viewmodels.MainActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -31,5 +32,6 @@ class MainActivity : AppCompatActivity() {
         var layoutManager = LinearLayoutManager(this)
         binding.repoRv.layoutManager = layoutManager
         binding.repoRv.adapter = ReposAdapter(edges)
+        binding.findButton.visibility = View.GONE
     }
 }

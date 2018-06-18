@@ -2,7 +2,6 @@ package com.apollo.nari.playwithapollo.viewmodels
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.databinding.BaseObservable
 import com.apollo.nari.playwithapollo.interfaces.BaseView
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

@@ -1,6 +1,8 @@
 package com.apollo.nari.playwithapollo.viewmodels
 
 import android.arch.lifecycle.MutableLiveData
+import android.databinding.Bindable
+import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.util.Log
 import com.apollographql.apollo.ApolloCall
@@ -12,8 +14,9 @@ import okhttp3.OkHttpClient
 class MainActivityViewModel : ObservableViewModel() {
     private val BASE_URL = "https://api.github.com/graphql"
     private lateinit var client: ApolloClient
+
+    var dataFetched = ObservableBoolean(false)
     val edges: MutableLiveData<List<FindReposByName.Edge>> = MutableLiveData()
-//    val ownerName: MutableLiveData<String> = MutableLiveData()
     val ownerName: ObservableField<String> = ObservableField()
 
     fun loadRepos() {
@@ -27,6 +30,8 @@ class MainActivityViewModel : ObservableViewModel() {
                         Log.d("APOLLO", "find query failed")
                     }
                     override fun onResponse(response: Response<FindReposByName.Data>) {
+                        Log.d("APOLLO", "find query success")
+                        dataFetched.set(true)
                         edges.postValue(response.data()?.repositoryOwner()?.repositories()!!.edges()!!)
                     }
                 })
