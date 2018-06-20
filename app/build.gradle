@@ -30,7 +30,7 @@ android {
 
 ext {
     supportLibraryVersion = '27.1.1'
-    archComponentsVersion = '1.0.0'
+    archComponentsVersion = '1.1.0'
     lifecycleExtensions = '1.1.1'
 }
 
