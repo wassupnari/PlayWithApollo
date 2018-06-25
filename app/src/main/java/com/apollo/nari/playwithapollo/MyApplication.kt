@@ -28,7 +28,7 @@ class MyApplication: Application() {
                     val builder = original.newBuilder().method(original.method(),
                             original.body())
                     builder.addHeader("Authorization"
-                            , "Bearer " + "73aa9cf9d63815ed4003e486a87d0ca42ad12559")
+                            , "Bearer " + "Your access token here")
                     chain.proceed(builder.build())
                 })
                 .build()
